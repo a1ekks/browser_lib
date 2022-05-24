@@ -1,0 +1,13 @@
+selenium==3.141.0
+pyppeteer
+pyppeteer-stealth
+redis
+requests
+lxml
+pydantic==1.9.0
+aio-pika==7.1.0
+httpx==0.22.0
+uvicorn==0.17.6
+fastapi==0.75.1
+websockets==10.2
+jsonpath

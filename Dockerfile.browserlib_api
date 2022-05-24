@@ -1,0 +1,8 @@
+FROM python:3.9
+
+COPY browserlib-requirements.txt /opt/requirements/
+RUN pip install -r /opt/requirements/browserlib-requirements.txt
+
+COPY . /opt/browserlib-service
+WORKDIR /opt/browserlib-service
+CMD python /opt/browserlib-service/run_app.py

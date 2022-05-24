@@ -1,0 +1,21 @@
+FROM python:3.7
+
+RUN apt-get update && apt-get install -y wget gnupg xvfb x11vnc\
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -m  -s /bin/bash parseruser
+
+COPY browserlib-requirements.txt /opt/requirements/
+RUN pip install -r /opt/requirements/browserlib-requirements.txt
+
+RUN pip install websockets==8.1 --force-reinstall
+
+COPY . /opt/browserlib-service
+RUN chown -R parseruser:parseruser /opt/browserlib-service
+WORKDIR /opt/browserlib-service
+CMD python /opt/browserlib-service/run_app.py
